@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test toutes technologie</title>
+    <link rel="stylesheet" href="libs/vendors/bootstrap/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="libs/vendors/style.css" media="screen" title="no title" charset="utf-8">
+      <script src="libs/vendors/underscore.min.js"></script>
+  </head>
+
+
+  <body>
+
+       <div class="container">
+           <span id="idListProduits">
+         <div class="row centerText">
+
+           <div class="col-xs-offset-4 col-xs-4">
+            <span class="TitheDesigne"> La liste des produits</span>
+           </div>
+
+         </div>
+         <div class="row">
+           <div class="col-xs-offset-2 col-xs-6">
+             <h3>Get with Id</h3>
+
+            <label><input type="text" name="name" value="" id="id">saisir Id</label>
+            <input type="submit" name="listId" value="listId" id="listId"/>
+
+              <h3>Get All</h3>
+         <input type="submit" name="listAll" value="listAll" id="listAll"/>
+
+           </div>
+         </div>
+
+
+         <div class="row">
+            <div class="col-xs-offset-4 col-xs-6">
+                    <table>
+                      <tr>
+                      <th>ID</th>  <th>Marque</th>  <th>Model</th> <th>Etat</th>  <th>Desc</th>
+                    </tr>
+
+                      <script type="text/template" id="idAfficher">
+                      <% _.each(produits, function(produit) { %>
+                      <td><%= produit.Id %></td>
+                      <td><%= produit.Marque %></td>
+                      <td><%= produit.Model %></td>
+                      <td><%= produit.Etat %></td>
+                      <td><%= produit.Desc %></td>
+                      <% }); %>
+                      </script>
+                       <span id="idAfficher_v"></span>
+
+                    </table>
+            </div>
+
+         </div>
+</span>
+       </div>
+
+
+    <script src="libs/vendors/jquery-2.2.0.min.js"></script>
+
+    <script src="libs/vendors/backbone.min.js"></script>
+  <!-- <script src="test.js" charset="utf-8"></script> -->
+      <script src="libs/MVC/vue.js"></script>
+       <script src="libs/MVC/model.js"></script>
+    <script src="libs/MVC/collection.js"></script>
+
+    <script src="libs/MVC/template.js"></script>
+    <script src="app.js"></script>
+
+
+  </body>
+</html>

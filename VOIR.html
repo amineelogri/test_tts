@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta  charset="utf-8"  >
+<title>Backbone</title>
+<!-- === Styles Twitter Bootstrap -->
+ <link href="libs/vendors/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="libs/vendors/style.css" rel="stylesheet">
+
+
+ <link href="libs/vendors/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+</head>
+<!-- === ici votre IHM === -->
+
+  <body >
+    <div class="body">
+  <!--
+  les classe css "navbar navbar-fixed-top", "navbar-inner", "container",
+  "brand", "hero-unit"
+  viennent de la feuille de style "twitter bootstrap "
+  -->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+         <div class="container">
+               <a class="brand">Mon Blog</a>
+          </div>
+     </div>
+  </div>
+      <div class="container">
+                <div class="hero-unit">
+                     <h1>Backbone rocks !!!</h1>
+
+                 </div>
+
+
+                 <!-- ìci notre template -->
+               <script type="text/template" id="articles-collection-template">
+                       <% _.each(articles, function(article) { %>
+                       <h1><%= article.title %></h1>
+                       <h6><%= article.publicationDate %></h6>
+                       <p><%= article.content %></p>
+                       <% }); %>
+                   </script>
+                       <!-- les données seront affichées ici -->
+                     <div id="articles-collection-container"></div>
+        </div>
+
+
+
+
+                 </div>
+
+</div>
+     </body>
+<!-- === Références aux Frameworks === -->
+
+<!-- === ici votre code applicatif === -->
+
+<script src="libs/vendors/jquery-2.2.0.min.js"></script>
+<script src="libs/vendors/underscore.min.js"></script>
+<script src="libs/vendors/backbone.min.js"></script>
+<script>
+$(function(){
+               //permettra d'accéder à nos variables en mode console
+                window.blog = {};
+/**************************************************************************************************************
+                                  /*--- Modèle article ---*/
+                   // une "sorte" de classe Article
+                           blog.Article = Backbone.Model.extend({
+                  //les valeurs par défaut d'un article
+               defaults : {
+                              title : "titre de l'article",
+                               content : "contenu de l'article",
+
+                          },
+                   // s'exécute à la création d'un article
+                   initialize : function () {
+                    console.log ("Création d'un nouvel article"),
+                    this.set("publicationDate",new Date());
+                                              }
+                    });
+/**************************************************************************************************************
+
+
+
+/**************************************************************************************************************
+
+                                                               /*--- Collection d'articles ---*/
+                                           blog.ArticlesCollection = Backbone.Collection.extend({
+                                           model : blog.Article,
+                                           url: "",
+                                           initialize : function () {
+                                           console.log ("Création d'une collection d'articles");
+                                           this.fetch();
+                                           }
+                                           });
+/**************************************************************************************************************
+
+/**************************************************************************************************************
+                                           /*--- Vues ---*/
+      blog.ArticlesView = Backbone.View.extend({
+          el : $("#articles-collection-container"),
+                      initialize : function () {
+                              this.template = _.template($("#articles-collection-template").html());
+                              /*--- binding ---*/
+                                _.bindAll(this, 'render');
+                                this.collection.bind('change', this.render);
+                                this.collection.bind('add', this.render);
+                                this.collection.bind('remove', this.render);
+/*---------------*/
+                                               },
+                      render : function () {
+                            var renderedContent = this.template({
+                              articles : this.collection.toJSON()
+                                                               });
+          $(this.el).html(renderedContent);
+          return this;
+                                           }
+                               });
+/**************************************************************************************************************
+                                           /*--- bootstrap ---*/
+                             blog.listeArticles = new blog.ArticlesCollection();
+                             blog.listeArticles.add(new blog.Article({ title : "titre1", content : "contenu1" }));
+                             blog.listeArticles.add(new blog.Article({ title : "titre2", content : "contenu2" }));
+                             blog.listeArticles.add(new blog.Article({ title : "titre3", content : "contenu3" }));
+                             blog.listeArticles.add(new blog.Article({ title : "titre4", content : "contenu4" }));
+                            blog.listeArticles.add(new blog.Article({ title : "titre5", content : "contenu5" }));
+
+
+
+});
+
+
+</script>
+
+</html>
